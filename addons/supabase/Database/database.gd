@@ -32,6 +32,7 @@ func query(supabase_query : SupabaseQuery) -> DatabaseTask:
 		_header + get_parent().auth.__get_session_header() + supabase_query.header, 
 		supabase_query.body
 		)
+	# print_debug("Task setup ", task)
 	_process_task(task)
 	return task
 
@@ -51,13 +52,15 @@ func Rpc(function_name : String, arguments : Dictionary = {}, supabase_query : S
 func _process_task(task : DatabaseTask) -> void:
 	var httprequest : HTTPRequest = HTTPRequest.new()
 	add_child(httprequest)
+	# print_debug("Task  ", task)
 	task.completed.connect(_on_task_completed)
 	_pooled_tasks.append(task)
 	task.push_request(httprequest)
 
 # .............. HTTPRequest completed
 func _on_task_completed(task : DatabaseTask) -> void:
-	if task.data!=null and not task.data.is_empty():    
+	# print_debug("Task completed ", task)
+	if task.data!=null:
 		match task._code:
 			SupabaseQuery.REQUESTS.SELECT: emit_signal("selected", task.data)
 			SupabaseQuery.REQUESTS.INSERT: emit_signal("inserted", task.data)

@@ -1,8 +1,9 @@
 <p align="center"><img src="addons/supabase/icon.svg" width="80px"/></p>
 
+Fork of [godot-engine.supabase](https://github.com/supabase-community/godot-engine.supabase)
 👉 [3.x](https://github.com/supabase-community/godot-engine.supabase/tree/main)
 
-# Godot Engine - Supabase (4.x)
+# Godot Engine - Supabase (4.4)
 A lightweight addon which integrates Supabase APIs for Godot Engine out of the box.  
 
 - [x] Authentication (/auth)

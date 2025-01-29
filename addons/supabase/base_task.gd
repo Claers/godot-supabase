@@ -4,14 +4,14 @@ class_name BaseTask
 
 signal completed(task: BaseTask)
 
-var _code : int
-var _method : int
-var _endpoint : String
-var _headers : PackedStringArray
-var _payload : String
+var _code: int
+var _method: int
+var _endpoint: String
+var _headers: PackedStringArray
+var _payload: String
 
 # EXPOSED VARIABLES -------------
-var error : BaseError
+var error: BaseError
 var data
 # -------------------------------
 
@@ -27,18 +27,19 @@ func _setup(code: int, endpoint: String, headers: PackedStringArray, payload: St
 	_method = match_code(code)
 	return self
 
-func match_code(code : int) -> int:
+func match_code(code: int) -> int:
 	return -1
 
-func push_request(httprequest : HTTPRequest) -> void:
+func push_request(httprequest: HTTPRequest) -> void:
 	reference()
 	httprequest.request_completed.connect(_on_task_completed.bind(httprequest))
+	# print_debug("Requesting ", _endpoint, " ", _headers, " ", _method, " ", _payload)
 	httprequest.request(_endpoint, _headers, _method, _payload)
 
-func _on_task_completed(result : int, response_code : int, headers : PackedStringArray, body : PackedByteArray, handler: HTTPRequest) -> void:
+func _on_task_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray, handler: HTTPRequest) -> void:
 	pass
 
-func _complete(_data = null, _error : BaseError = null) -> void:
+func _complete(_data = null, _error: BaseError = null) -> void:
 	data = _data
 	error = _error
 	completed.emit(self)
